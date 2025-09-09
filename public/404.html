@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Страница не найдена | Gaming Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-content">
+            <div class="error-icon">🎮</div>
+            <h1 class="error-title">404</h1>
+            <h2 class="error-subtitle">Страница не найдена</h2>
+            <p class="error-description">
+                Похоже, вы попали не туда! Эта страница была удалена или перемещена.
+            </p>
+            <div class="error-actions">
+                <a href="/" class="cta-button">
+                    🏠 На главную
+                </a>
+                <a href="/dashboard" class="glass-button">
+                    🎮 В панель
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+        }
+
+        .error-content {
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        .error-title {
+            font-size: 6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-subtitle {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .error-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 4rem;
+            }
+
+            .error-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .error-actions .cta-button,
+            .error-actions .glass-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</body>
+</html>

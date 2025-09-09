@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Platform - Админ панель</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/admin.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">🛡️ Админ панель</div>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Главная</a></li>
+                <li><a href="/dashboard" class="nav-link">Панель</a></li>
+                <li><a href="/admin" class="nav-link active">Админ</a></li>
+            </ul>
+            <div class="nav-auth" id="navAuth">
+                <span id="adminName" class="admin-name"></span>
+                <button onclick="gamePlatform.logout()" class="glass-button">Выйти</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+            <!-- Admin Stats -->
+            <section class="admin-stats">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Всего пользователей</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <h3 id="totalSubmissions">0</h3>
+                            <p>Всего заявок</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-content">
+                            <h3 id="pendingSubmissions">0</h3>
+                            <p>Ожидают модерации</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <h3 id="totalPayouts">0</h3>
+                            <p>Всего выплачено</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Tabs -->
+            <section class="admin-tabs">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="submissions">Заявки</button>
+                    <button class="tab-btn" data-tab="users">Пользователи</button>
+                    <button class="tab-btn" data-tab="logs">Логи</button>
+                </div>
+
+                <!-- Submissions Tab -->
+                <div class="tab-content active" id="submissions-tab">
+                    <div class="tab-header">
+                        <h2>Управление заявками</h2>
+                        <div class="tab-actions">
+                            <select id="submissionStatusFilter" class="form-select">
+                                <option value="">Все статусы</option>
+                                <option value="PENDING">На рассмотрении</option>
+                                <option value="APPROVED">Одобрено</option>
+                                <option value="REJECTED">Отклонено</option>
+                            </select>
+                            <select id="submissionCategoryFilter" class="form-select">
+                                <option value="">Все категории</option>
+                            </select>
+                            <button class="glass-button" onclick="adminPanel.loadSubmissions()">🔄 Обновить</button>
+                        </div>
+                    </div>
+
+                    <div class="bulk-actions" id="bulkActions" style="display: none;">
+                        <div class="bulk-info">
+                            <span id="selectedCount">0</span> заявок выбрано
+                        </div>
+                        <div class="bulk-buttons">
+                            <button class="btn btn-primary" onclick="adminPanel.bulkApprove()">✅ Одобрить</button>
+                            <button class="btn btn-danger" onclick="adminPanel.bulkReject()">❌ Отклонить</button>
+                        </div>
+                    </div>
+
+                    <div class="submissions-container">
+                        <div id="submissionsTable" class="table-container">
+                            <!-- Submissions table will be loaded here -->
+                        </div>
+                        <div id="submissionsLoading" class="loading-state hidden">
+                            <div class="spinner"></div>
+                            <p>Загрузка заявок...</p>
+                        </div>
+                        <div class="pagination" id="submissionsPagination"></div>
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div class="tab-content" id="users-tab">
+                    <div class="tab-header">
+                        <h2>Управление пользователями</h2>
+                        <div class="tab-actions">
+                            <input type="text" id="userSearch" class="form-input" placeholder="Поиск по никнейму...">
+                            <select id="userRoleFilter" class="form-select">
+                                <option value="">Все роли</option>
+                                <option value="USER">Пользователь</option>
+                                <option value="MODERATOR">Модератор</option>
+                                <option value="ADMIN">Админ</option>
+                            </select>
+                            <button class="glass-button" onclick="adminPanel.loadUsers()">🔄 Обновить</button>
+                        </div>
+                    </div>
+
+                    <div class="users-container">
+                        <div id="usersTable" class="table-container">
+                            <!-- Users table will be loaded here -->
+                        </div>
+                        <div id="usersLoading" class="loading-state hidden">
+                            <div class="spinner"></div>
+                            <p>Загрузка пользователей...</p>
+                        </div>
+                        <div class="pagination" id="usersPagination"></div>
+                    </div>
+                </div>
+
+                <!-- Logs Tab -->
+                <div class="tab-content" id="logs-tab">
+                    <div class="tab-header">
+                        <h2>Логи администратора</h2>
+                        <div class="tab-actions">
+                            <select id="logsActionFilter" class="form-select">
+                                <option value="">Все действия</option>
+                                <option value="REVIEW_SUBMISSION">Модерация заявок</option>
+                                <option value="ADD_BALANCE">Добавление баланса</option>
+                                <option value="UPDATE_USER">Обновление пользователя</option>
+                            </select>
+                            <button class="glass-button" onclick="adminPanel.loadLogs()">🔄 Обновить</button>
+                        </div>
+                    </div>
+
+                    <div class="logs-container">
+                        <div id="logsTable" class="table-container">
+                            <!-- Logs table will be loaded here -->
+                        </div>
+                        <div id="logsLoading" class="loading-state hidden">
+                            <div class="spinner"></div>
+                            <p>Загрузка логов...</p>
+                        </div>
+                        <div class="pagination" id="logsPagination"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Submission Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 class="modal-title">Рассмотрение заявки</h2>
+                <button class="modal-close" onclick="gamePlatform.closeModal('reviewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="reviewContent">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Edit Modal -->
+    <div id="userEditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Редактировать пользователя</h2>
+                <button class="modal-close" onclick="gamePlatform.closeModal('userEditModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userEditForm" class="form">
+                    <input type="hidden" id="editUserId" name="userId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Никнейм</label>
+                        <input type="text" id="editUserNickname" class="form-input" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editUserRole">Роль</label>
+                        <select id="editUserRole" name="role" class="form-select">
+                            <option value="USER">Пользователь</option>
+                            <option value="MODERATOR">Модератор</option>
+                            <option value="ADMIN">Админ</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="editUserBalance">Баланс</label>
+                        <input type="number" id="editUserBalance" name="balance" class="form-input" 
+                               step="0.01" min="0" max="100000">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editUserBanned" name="isBanned">
+                            <span>Заблокирован</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="gamePlatform.closeModal('userEditModal')">
+                    Отмена
+                </button>
+                <button type="button" class="btn btn-primary" onclick="adminPanel.saveUserChanges()">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Balance Modal -->
+    <div id="addBalanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Добавить баланс</h2>
+                <button class="modal-close" onclick="gamePlatform.closeModal('addBalanceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addBalanceForm" class="form">
+                    <input type="hidden" id="balanceUserId" name="userId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Пользователь</label>
+                        <input type="text" id="balanceUserNickname" class="form-input" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="balanceAmount">Сумма *</label>
+                        <input type="number" id="balanceAmount" name="amount" class="form-input" 
+                               step="0.01" min="0.01" max="10000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="balanceReason">Причина *</label>
+                        <textarea id="balanceReason" name="reason" class="form-input form-textarea" 
+                                  required placeholder="Укажите причину добавления баланса" maxlength="200"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="gamePlatform.closeModal('addBalanceModal')">
+                    Отмена
+                </button>
+                <button type="button" class="btn btn-primary" onclick="adminPanel.addUserBalance()">
+                    Добавить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Reject Modal -->
+    <div id="bulkRejectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Массовое отклонение</h2>
+                <button class="modal-close" onclick="gamePlatform.closeModal('bulkRejectModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bulkRejectForm" class="form">
+                    <div class="form-group">
+                        <label class="form-label" for="bulkRejectReason">Причина отклонения *</label>
+                        <textarea id="bulkRejectReason" name="reason" class="form-input form-textarea" 
+                                  required placeholder="Укажите причину отклонения заявок" maxlength="200"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="gamePlatform.closeModal('bulkRejectModal')">
+                    Отмена
+                </button>
+                <button type="button" class="btn btn-danger" onclick="adminPanel.confirmBulkReject()">
+                    Отклонить заявки
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="successToast" class="toast toast-success hidden">
+        <div class="toast-content">
+            <span class="toast-icon">✅</span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <div id="errorToast" class="toast toast-error hidden">
+        <div class="toast-content">
+            <span class="toast-icon">❌</span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/admin.js"></script>
+</body>
+</html>

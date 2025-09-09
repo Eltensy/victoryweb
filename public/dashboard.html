@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Platform - Панель пользователя</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">🎮 GamePlatform</div>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Главная</a></li>
+                <li><a href="/dashboard" class="nav-link active">Панель</a></li>
+            </ul>
+            <div class="nav-auth" id="navAuth">
+                <div class="user-balance" id="userBalance">
+                    💰 <span id="balanceAmount">0</span>
+                </div>
+                <button onclick="gamePlatform.logout()" class="glass-button">Выйти</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="dashboard-welcome">
+                <div class="welcome-content">
+                    <h1 id="welcomeTitle">Добро пожаловать!</h1>
+                    <p>Управляйте своими заявками и отслеживайте статистику</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-action-btn" onclick="dashboard.showSubmissionModal()">
+                        📤 Новая заявка
+                    </button>
+                </div>
+            </section>
+
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <h3 id="totalSubmissions">0</h3>
+                            <p>Всего заявок</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-content">
+                            <h3 id="pendingSubmissions">0</h3>
+                            <p>На рассмотрении</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3 id="approvedSubmissions">0</h3>
+                            <p>Одобрено</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <h3 id="totalEarnings">0</h3>
+                            <p>Заработано</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Tabs -->
+            <section class="dashboard-tabs">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="submissions">Мои заявки</button>
+                    <button class="tab-btn" data-tab="payouts">История выплат</button>
+                </div>
+
+                <!-- Submissions Tab -->
+                <div class="tab-content active" id="submissions-tab">
+                    <div class="tab-header">
+                        <h2>Мои заявки</h2>
+                        <div class="tab-actions">
+                            <select id="statusFilter" class="form-select">
+                                <option value="">Все статусы</option>
+                                <option value="PENDING">На рассмотрении</option>
+                                <option value="APPROVED">Одобрено</option>
+                                <option value="REJECTED">Отклонено</option>
+                            </select>
+                            <button class="glass-button" onclick="dashboard.loadSubmissions()">🔄 Обновить</button>
+                        </div>
+                    </div>
+
+                    <div class="submissions-container">
+                        <div id="submissionsGrid" class="submissions-grid">
+                            <!-- Submissions will be loaded here -->
+                        </div>
+                        <div id="submissionsLoading" class="loading-state hidden">
+                            <div class="spinner"></div>
+                            <p>Загрузка заявок...</p>
+                        </div>
+                        <div id="submissionsEmpty" class="empty-state hidden">
+                            <div class="empty-icon">📋</div>
+                            <h3>Заявок пока нет</h3>
+                            <p>Создайте свою первую заявку, чтобы начать зарабатывать</p>
+                            <button class="cta-button" onclick="dashboard.showSubmissionModal()">
+                                Создать заявку
+                            </button>
+                        </div>
+                        <div class="pagination" id="submissionsPagination">
+                            <!-- Pagination will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payouts Tab -->
+                <div class="tab-content" id="payouts-tab">
+                    <div class="tab-header">
+                        <h2>История выплат</h2>
+                    </div>
+
+                    <div class="payouts-container">
+                        <div id="payoutsTable" class="table-container">
+                            <!-- Payouts table will be loaded here -->
+                        </div>
+                        <div id="payoutsLoading" class="loading-state hidden">
+                            <div class="spinner"></div>
+                            <p>Загрузка истории выплат...</p>
+                        </div>
+                        <div id="payoutsEmpty" class="empty-state hidden">
+                            <div class="empty-icon">💰</div>
+                            <h3>Выплат пока нет</h3>
+                            <p>Создавайте качественные заявки, чтобы получить первые выплаты</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div id="submissionModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 class="modal-title">Создать новую заявку</h2>
+                <button class="modal-close" onclick="gamePlatform.closeModal('submissionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="submissionForm" class="form">
+                    <div class="form-group">
+                        <label class="form-label" for="category">Категория *</label>
+                        <select id="category" name="category" class="form-select" required>
+                            <option value="">Выберите категорию</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="description">Описание</label>
+                        <textarea id="description" name="description" class="form-input form-textarea" 
+                                  placeholder="Опишите ваш момент (необязательно)" maxlength="500"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Файл *</label>
+                        <div class="file-upload" id="fileUpload">
+                            <input type="file" id="file" name="file" class="file-upload-input" 
+                                   accept="image/*,video/*" required>
+                            <div class="file-upload-content">
+                                <div class="file-upload-icon">📁</div>
+                                <div class="file-upload-text">
+                                    <h3>Перетащите файл сюда или нажмите для выбора</h3>
+                                    <p>Максимальный размер: 100 МБ<br>
+                                       Поддерживаемые форматы: изображения и видео</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="filePreview" class="file-preview hidden"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="gamePlatform.closeModal('submissionModal')">
+                    Отмена
+                </button>
+                <button type="button" class="btn btn-primary" onclick="dashboard.submitForm()" id="submitBtn">
+                    Отправить заявку
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Details Modal -->
+    <div id="submissionDetailsModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 class="modal-title">Детали заявки</h2>
+                <button class="modal-close" onclick="gamePlatform.closeModal('submissionDetailsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="submissionDetailsContent">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Загрузка...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="successToast" class="toast toast-success hidden">
+        <div class="toast-content">
+            <span class="toast-icon">✅</span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <div id="errorToast" class="toast toast-error hidden">
+        <div class="toast-content">
+            <span class="toast-icon">❌</span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/dashboard.js"></script>
+</body>
+</html>

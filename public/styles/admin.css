@@ -1,0 +1,599 @@
+/* Admin Panel Styles */
+
+.admin-main {
+    min-height: calc(100vh - 80px);
+    padding: 2rem 0;
+}
+
+.admin-name {
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+/* Admin Stats */
+.admin-stats {
+    margin-bottom: 3rem;
+}
+
+/* Admin Tabs */
+.admin-tabs {
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+/* Bulk Actions */
+.bulk-actions {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bulk-info {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.bulk-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Tables */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-secondary);
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.admin-table th {
+    background: var(--bg-primary);
+    font-weight: 600;
+    color: var(--text-primary);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.admin-table tr:hover {
+    background: var(--bg-glass);
+}
+
+.admin-table .checkbox-cell {
+    width: 40px;
+    text-align: center;
+}
+
+.admin-table .actions-cell {
+    width: 200px;
+}
+
+.admin-table .status-cell {
+    width: 120px;
+}
+
+.admin-table .date-cell {
+    width: 150px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Table Actions */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-table {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-table.btn-view {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-table.btn-approve {
+    background: var(--success);
+    color: white;
+}
+
+.btn-table.btn-reject {
+    background: var(--error);
+    color: white;
+}
+
+.btn-table.btn-edit {
+    background: var(--warning);
+    color: white;
+}
+
+.btn-table.btn-balance {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.btn-table:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Submission Preview */
+.submission-preview-small {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--bg-primary);
+}
+
+.submission-info-compact {
+    max-width: 200px;
+}
+
+.submission-category-small {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.submission-description-small {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* User Info */
+.user-info-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-nickname {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.user-meta {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Balance Display */
+.balance-display {
+    font-weight: 600;
+    color: var(--success);
+}
+
+.balance-negative {
+    color: var(--error);
+}
+
+/* Role Badge */
+.role-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.role-user {
+    background: rgba(107, 114, 128, 0.2);
+    color: var(--text-secondary);
+    border: 1px solid var(--text-secondary);
+}
+
+.role-moderator {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+    border: 1px solid var(--warning);
+}
+
+.role-admin {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.online {
+    background: var(--success);
+}
+
+.status-dot.banned {
+    background: var(--error);
+}
+
+.status-dot.inactive {
+    background: var(--text-secondary);
+}
+
+/* Search and Filters */
+.filters-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Modal Content Styles */
+.review-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.review-media {
+    text-align: center;
+}
+
+.review-media img,
+.review-media video {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.review-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.review-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.review-field label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.review-field .value {
+    color: var(--text-secondary);
+}
+
+.review-actions {
+    display: flex;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.review-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.review-form .form-group {
+    margin-bottom: 0;
+}
+
+.review-form .full-width {
+    grid-column: 1 / -1;
+}
+
+/* Checkbox Styles */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin: 0;
+}
+
+/* Log Entry Styles */
+.log-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.log-action {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.log-details {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.log-meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Pagination Enhancements */
+.pagination-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--bg-glass);
+    border-radius: 8px;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pagination-summary {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Loading States */
+.table-loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.table-empty {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.table-empty .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .review-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .review-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-table {
+        font-size: 0.875rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .bulk-actions {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .bulk-buttons {
+        justify-content: center;
+    }
+    
+    .table-actions {
+        flex-direction: column;
+    }
+    
+    .btn-table {
+        justify-content: center;
+    }
+    
+    .pagination-info {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    /* Hide less important columns on mobile */
+    .admin-table .hide-mobile {
+        display: none;
+    }
+    
+    .user-info-compact {
+        flex-direction: column;
+        align-items: start;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-table {
+        font-size: 0.8rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .btn-table {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
+
+/* Animations */
+@keyframes tableRowSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.admin-table tr {
+    animation: tableRowSlide 0.2s ease-out;
+}
+
+@keyframes bulkActionSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bulk-actions {
+    animation: bulkActionSlide 0.3s ease-out;
+}
+
+/* Selection Styles */
+.admin-table tr.selected {
+    background: rgba(99, 102, 241, 0.1);
+    border-left: 3px solid var(--accent);
+}
+
+.admin-table tr.selected:hover {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+/* Quick Stats in Tab Headers */
+.tab-stats {
+    display: flex;
+    gap: 2rem;
+    margin-left: auto;
+    font-size: 0.875rem;
+}
+
+.tab-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.tab-stat .number {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* Action Confirmations */
+.action-confirmation {
+    background: var(--bg-card);
+    border: 1px solid var(--warning);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.action-confirmation.danger {
+    border-color: var(--error);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.action-confirmation .warning-icon {
+    color: var(--warning);
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+/* Success/Error States */
+.success-message {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    color: var(--success);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--error);
+    color: var(--error);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
