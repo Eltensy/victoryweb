@@ -76,6 +76,7 @@ require('./config/passport');
 
 // Static files
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static('uploads'));
 
 // API Routes
@@ -88,6 +89,12 @@ app.use('/api/user', userRoutes);
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdn.tailwindcss.com; script-src 'self' https://cdn.tailwindcss.com");
+  next();
+});
+
 
 app.get('/dashboard', isAuthenticated, (req, res) => {
   // Check if user is banned

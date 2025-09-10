@@ -29,143 +29,98 @@
 
     <main class="admin-main">
         <div class="container">
-            <!-- Admin Stats -->
-            <section class="admin-stats">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">👥</div>
-                        <div class="stat-content">
-                            <h3 id="totalUsers">0</h3>
-                            <p>Всего пользователей</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📋</div>
-                        <div class="stat-content">
-                            <h3 id="totalSubmissions">0</h3>
-                            <p>Всего заявок</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⏳</div>
-                        <div class="stat-content">
-                            <h3 id="pendingSubmissions">0</h3>
-                            <p>Ожидают модерации</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">💰</div>
-                        <div class="stat-content">
-                            <h3 id="totalPayouts">0</h3>
-                            <p>Всего выплачено</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Admin Tabs -->
-            <section class="admin-tabs">
-                <div class="tab-nav">
-                    <button class="tab-btn active" data-tab="submissions">Заявки</button>
-                    <button class="tab-btn" data-tab="users">Пользователи</button>
-                    <button class="tab-btn" data-tab="logs">Логи</button>
-                </div>
-
-                <!-- Submissions Tab -->
-                <div class="tab-content active" id="submissions-tab">
-                    <div class="tab-header">
-                        <h2>Управление заявками</h2>
-                        <div class="tab-actions">
-                            <select id="submissionStatusFilter" class="form-select">
+            <!-- Admin Page Content Only -->
+            <div id="admin-page" class="min-h-screen py-12 px-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-between items-center mb-8">
+                        <h1 class="text-4xl font-bold">Панель администратора</h1>
+                        <div class="flex space-x-4">
+                            <select id="status-filter" class="glass rounded-lg px-4 py-2 bg-dark-700 text-white">
                                 <option value="">Все статусы</option>
-                                <option value="PENDING">На рассмотрении</option>
-                                <option value="APPROVED">Одобрено</option>
-                                <option value="REJECTED">Отклонено</option>
+                                <option value="pending">Ожидает</option>
+                                <option value="approved">Одобрено</option>
+                                <option value="rejected">Отклонено</option>
                             </select>
-                            <select id="submissionCategoryFilter" class="form-select">
+                            <select id="category-filter" class="glass rounded-lg px-4 py-2 bg-dark-700 text-white">
                                 <option value="">Все категории</option>
+                                <option value="gold-kill">Голд килл</option>
+                                <option value="victory">Победа</option>
+                                <option value="funny">Смешной момент</option>
+                                <option value="skill">Скилл</option>
                             </select>
-                            <button class="glass-button" onclick="adminPanel.loadSubmissions()">🔄 Обновить</button>
                         </div>
                     </div>
-
-                    <div class="bulk-actions" id="bulkActions" style="display: none;">
-                        <div class="bulk-info">
-                            <span id="selectedCount">0</span> заявок выбрано
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="glass rounded-xl p-6">
+                            <div class="text-3xl font-bold text-blue-400">24</div>
+                            <div class="text-gray-400">Всего заявок</div>
                         </div>
-                        <div class="bulk-buttons">
-                            <button class="btn btn-primary" onclick="adminPanel.bulkApprove()">✅ Одобрить</button>
-                            <button class="btn btn-danger" onclick="adminPanel.bulkReject()">❌ Отклонить</button>
+                        <div class="glass rounded-xl p-6">
+                            <div class="text-3xl font-bold text-yellow-400">8</div>
+                            <div class="text-gray-400">Ожидают</div>
+                        </div>
+                        <div class="glass rounded-xl p-6">
+                            <div class="text-3xl font-bold text-green-400">12</div>
+                            <div class="text-gray-400">Одобрено</div>
+                        </div>
+                        <div class="glass rounded-xl p-6">
+                            <div class="text-3xl font-bold text-red-400">4</div>
+                            <div class="text-gray-400">Отклонено</div>
                         </div>
                     </div>
-
-                    <div class="submissions-container">
-                        <div id="submissionsTable" class="table-container">
-                            <!-- Submissions table will be loaded here -->
+                    <div class="glass rounded-2xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-dark-700">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left">Пользователь</th>
+                                        <th class="px-6 py-4 text-left">Категория</th>
+                                        <th class="px-6 py-4 text-left">Дата</th>
+                                        <th class="px-6 py-4 text-left">Статус</th>
+                                        <th class="px-6 py-4 text-left">Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="applications-table" class="divide-y divide-gray-700">
+                                    <tr class="hover:bg-dark-700/50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-sm font-bold">
+                                                    GU
+                                                </div>
+                                                <span>GameUser123</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-yellow-500/20 text-yellow-400">
+                                                🏆 Голд килл
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-400">2024-01-15</td>
+                                        <td class="px-6 py-4">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-yellow-500/20 text-yellow-400">
+                                                Ожидает
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex space-x-2">
+                                                <button onclick="viewApplication(1)" class="text-blue-400 hover:text-blue-300 transition-colors">
+                                                    Просмотр
+                                                </button>
+                                                <button onclick="approveApplication(1)" class="text-green-400 hover:text-green-300 transition-colors">
+                                                    Одобрить
+                                                </button>
+                                                <button onclick="rejectApplication(1)" class="text-red-400 hover:text-red-300 transition-colors">
+                                                    Отклонить
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div id="submissionsLoading" class="loading-state hidden">
-                            <div class="spinner"></div>
-                            <p>Загрузка заявок...</p>
-                        </div>
-                        <div class="pagination" id="submissionsPagination"></div>
                     </div>
                 </div>
-
-                <!-- Users Tab -->
-                <div class="tab-content" id="users-tab">
-                    <div class="tab-header">
-                        <h2>Управление пользователями</h2>
-                        <div class="tab-actions">
-                            <input type="text" id="userSearch" class="form-input" placeholder="Поиск по никнейму...">
-                            <select id="userRoleFilter" class="form-select">
-                                <option value="">Все роли</option>
-                                <option value="USER">Пользователь</option>
-                                <option value="MODERATOR">Модератор</option>
-                                <option value="ADMIN">Админ</option>
-                            </select>
-                            <button class="glass-button" onclick="adminPanel.loadUsers()">🔄 Обновить</button>
-                        </div>
-                    </div>
-
-                    <div class="users-container">
-                        <div id="usersTable" class="table-container">
-                            <!-- Users table will be loaded here -->
-                        </div>
-                        <div id="usersLoading" class="loading-state hidden">
-                            <div class="spinner"></div>
-                            <p>Загрузка пользователей...</p>
-                        </div>
-                        <div class="pagination" id="usersPagination"></div>
-                    </div>
-                </div>
-
-                <!-- Logs Tab -->
-                <div class="tab-content" id="logs-tab">
-                    <div class="tab-header">
-                        <h2>Логи администратора</h2>
-                        <div class="tab-actions">
-                            <select id="logsActionFilter" class="form-select">
-                                <option value="">Все действия</option>
-                                <option value="REVIEW_SUBMISSION">Модерация заявок</option>
-                                <option value="ADD_BALANCE">Добавление баланса</option>
-                                <option value="UPDATE_USER">Обновление пользователя</option>
-                            </select>
-                            <button class="glass-button" onclick="adminPanel.loadLogs()">🔄 Обновить</button>
-                        </div>
-                    </div>
-
-                    <div class="logs-container">
-                        <div id="logsTable" class="table-container">
-                            <!-- Logs table will be loaded here -->
-                        </div>
-                        <div id="logsLoading" class="loading-state hidden">
-                            <div class="spinner"></div>
-                            <p>Загрузка логов...</p>
-                        </div>
-                        <div class="pagination" id="logsPagination"></div>
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
     </main>
 

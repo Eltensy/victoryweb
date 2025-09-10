@@ -5,24 +5,32 @@ const prisma = new PrismaClient();
 
 passport.use('epic', new OAuth2Strategy({
   authorizationURL: 'https://www.epicgames.com/id/authorize',
-  tokenURL: 'https://api.epicgames.dev/epic/oauth/v1/token',
+  tokenURL: 'https://api.epicgames.dev/epic/oauth/v2/token', // Обновлено до v2
   clientID: process.env.EPIC_CLIENT_ID,
   clientSecret: process.env.EPIC_CLIENT_SECRET,
   callbackURL: process.env.EPIC_REDIRECT_URI,
   scope: 'basic_profile'
 }, async (accessToken, refreshToken, profile, done) => {
   try {
-    // Fetch user info from Epic Games API
-    const response = await fetch('https://api.epicgames.dev/epic/id/v1/accounts', {
+    // Получаем accountId из ответа токена (profile не используется напрямую)
+    const tokenResponse = profile; // OAuth2Strategy передает token response как profile
+    const accountId = tokenResponse.account_id;
+
+    if (!accountId) {
+      throw new Error('No accountId received in token response');
+    }
+
+    // Запрос информации об аккаунте
+    const response = await fetch(`https://api.epicgames.dev/epic/id/v2/accounts?accountId=${accountId}`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to fetch user data from Epic Games');
+      throw new Error(`Failed to fetch user data from Epic Games: ${response.statusText}`);
     }
-    
+
     const userData = await response.json();
     const epicUser = userData[0];
 
@@ -37,29 +45,31 @@ passport.use('epic', new OAuth2Strategy({
     if (!user) {
       const adminIds = process.env.ADMIN_EPIC_IDS?.split(',') || [];
       const role = adminIds.includes(epicUser.accountId) ? 'ADMIN' : 'USER';
-      
+
       user = await prisma.user.create({
         data: {
           epicId: epicUser.accountId,
           nickname: epicUser.displayName || `User_${epicUser.accountId.slice(-8)}`,
-          role
+          role,
+          refreshToken // Сохраняем refreshToken в базе данных
         }
       });
-      
+
       console.log(`✅ New user registered: ${user.nickname} (${user.role})`);
     } else {
-      // Update nickname if changed
-      if (user.nickname !== epicUser.displayName) {
-        user = await prisma.user.update({
-          where: { id: user.id },
-          data: { nickname: epicUser.displayName }
-        });
-      }
+      // Обновляем nickname и refreshToken, если изменились
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          nickname: epicUser.displayName,
+          refreshToken // Обновляем refreshToken
+        }
+      });
     }
 
     return done(null, user);
   } catch (error) {
-    console.error('Epic OAuth Error:', error);
+    console.error('Epic OAuth Error:', error.message, error.stack);
     return done(error, null);
   }
 }));
@@ -79,12 +89,13 @@ passport.deserializeUser(async (id, done) => {
         balance: true,
         role: true,
         isBanned: true,
-        createdAt: true
+        createdAt: true,
+        refreshToken: true // Добавляем refreshToken
       }
     });
     done(null, user);
   } catch (error) {
-    console.error('Deserialize user error:', error);
+    console.error('Deserialize user error:', error.message, error.stack);
     done(error, null);
   }
 });

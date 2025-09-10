@@ -3,174 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameClips - Покажи свои лучшие моменты</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <title>GameClips - Поделись своими лучшими моментами</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0a0a0b',
+                            800: '#1a1a1b',
+                            700: '#2a2a2b',
+                            600: '#3a3a3b'
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
-<body>
+<body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 text-white min-h-screen">
     <!-- Navigation -->
-    <header class="header glass">
-        <nav class="nav">
-            <div class="logo">
-                <div class="logo-icon">GC</div>
-                <span class="logo-text">GameClips</span>
+    <nav class="glass fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">GC</span>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">GameClips</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="#features" class="nav-link">Возможности</a></li>
-                <li><a href="#rules" class="nav-link">Правила</a></li>
-            </ul>
-            <div class="nav-auth" id="navAuth">
-                <a href="/auth/epic" class="glass-button">Войти</a>
+            <div class="flex items-center space-x-4">
+                <a href="#features" class="text-gray-300 hover:text-white transition-colors hidden md:block">Возможности</a>
+                <a href="#rules" class="text-gray-300 hover:text-white transition-colors hidden md:block">Правила</a>
+                <div id="nav-auth" class="flex items-center space-x-4">
+                    <div id="nav-login">
+                        <button onclick="loginWithEpic()" class="glass text-white px-4 py-2 rounded-lg hover:bg-white/10 transition-colors">Войти</button>
+                    </div>
+                    <div id="nav-user" class="hidden items-center space-x-4">
+                        <span id="user-name" class="text-gray-300"></span>
+                        <button onclick="logout()" class="text-gray-400 hover:text-white transition-colors">Выйти</button>
+                    </div>
+                </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero animate-fade-in">
-            <div class="hero-content">
-                <h1>Покажи свои лучшие моменты</h1>
-                <p>Загружай скриншоты и видео своих эпичных побед, получай вознаграждения за качественный контент</p>
-                
-                <div class="auth-modal">
-                    <h2>Войти в аккаунт</h2>
-                    <a href="/auth/epic" class="cta-button" id="loginButton">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Landing Page -->
+        <div id="landing-page" class="min-h-screen flex items-center justify-center px-6">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Покажи свои лучшие моменты
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                    Загружай скриншоты и видео своих эпичных побед, получай вознаграждения за качественный контент
+                </p>
+                <div class="glass rounded-2xl p-8 max-w-md mx-auto">
+                    <h2 class="text-2xl font-semibold mb-6">Войти в аккаунт</h2>
+                    <button onclick="loginWithEpic()" id="loginButton" class="w-full bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
                         </svg>
                         <span>Войти через Epic Games</span>
-                    </a>
-                    <div class="auth-note">
+                    </button>
+                    <div class="mt-4 text-sm text-gray-400">
                         Другие способы входа будут добавлены позже
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Features Section -->
-        <section id="features" class="features">
-            <div class="container">
-                <h2>Возможности платформы</h2>
-                <div class="features-grid">
-                    <div class="feature-card animate-slide-up">
-                        <div class="feature-icon">📸</div>
-                        <h3>Загрузка контента</h3>
-                        <p>Быстрая загрузка скриншотов и видео с автоматической оптимизацией</p>
+        <section id="features" class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Возможности платформы</h2>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass rounded-2xl p-8 animate-slide-up hover:bg-white/10 transition-all duration-300">
+                        <div class="text-4xl mb-4">📸</div>
+                        <h3 class="text-2xl font-semibold mb-4">Загрузка контента</h3>
+                        <p class="text-gray-300">Быстрая загрузка скриншотов и видео с автоматической оптимизацией</p>
                     </div>
-                    <div class="feature-card animate-slide-up">
-                        <div class="feature-icon">💰</div>
-                        <h3>Система наград</h3>
-                        <p>Получайте баланс за одобренный контент и участвуйте в конкурсах</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up hover:bg-white/10 transition-all duration-300">
+                        <div class="text-4xl mb-4">💰</div>
+                        <h3 class="text-2xl font-semibold mb-4">Система наград</h3>
+                        <p class="text-gray-300">Получайте баланс за одобренный контент и участвуйте в конкурсах</p>
                     </div>
-                    <div class="feature-card animate-slide-up">
-                        <div class="feature-icon">🏆</div>
-                        <h3>Рейтинг игроков</h3>
-                        <p>Соревнуйтесь с другими игроками и становитесь лучшими</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up hover:bg-white/10 transition-all duration-300">
+                        <div class="text-4xl mb-4">🏆</div>
+                        <h3 class="text-2xl font-semibold mb-4">Рейтинг игроков</h3>
+                        <p class="text-gray-300">Соревнуйтесь с другими игроками и становитесь лучшими</p>
                     </div>
-                    <div class="feature-card animate-slide-up">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Быстрая модерация</h3>
-                        <p>Профессиональная команда модераторов для быстрого рассмотрения</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up hover:bg-white/10 transition-all duration-300">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-2xl font-semibold mb-4">Быстрая модерация</h3>
+                        <p class="text-gray-300">Профессиональная команда модераторов для быстрого рассмотрения</p>
                     </div>
-                    <div class="feature-card animate-slide-up">
-                        <div class="feature-icon">🎮</div>
-                        <h3>Все жанры</h3>
-                        <p>Поддержка контента из любых популярных игр</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up hover:bg-white/10 transition-all duration-300">
+                        <div class="text-4xl mb-4">🎮</div>
+                        <h3 class="text-2xl font-semibold mb-4">Все жанры</h3>
+                        <p class="text-gray-300">Поддержка контента из любых популярных игр</p>
                     </div>
-                    <div class="feature-card animate-slide-up">
-                        <div class="feature-icon">📱</div>
-                        <h3>Мобильная версия</h3>
-                        <p>Удобный интерфейс для загрузки с мобильных устройств</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up hover:bg-white/10 transition-all duration-300">
+                        <div class="text-4xl mb-4">📱</div>
+                        <h3 class="text-2xl font-semibold mb-4">Мобильная версия</h3>
+                        <p class="text-gray-300">Удобный интерфейс для загрузки с мобильных устройств</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Rules Section -->
-        <section id="rules" class="rules">
-            <div class="container">
-                <h2>Правила подачи заявок</h2>
-                <div class="rules-content">
-                    <div class="rule-item animate-slide-up">
-                        <h3>📋 Качество контента</h3>
-                        <p>Загружайте только высококачественные скриншоты и видео. Размытые или плохо снятые материалы не будут одобрены.</p>
+        <section id="rules" class="py-20 px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Правила подачи заявок</h2>
+                </div>
+                <div class="space-y-8">
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                            <span class="text-3xl mr-4">📋</span>
+                            Качество контента
+                        </h3>
+                        <p class="text-gray-300">Загружайте только высококачественные скриншоты и видео. Размытые или плохо снятые материалы не будут одобрены.</p>
                     </div>
-                    <div class="rule-item animate-slide-up">
-                        <h3>🎯 Релевантность</h3>
-                        <p>Контент должен соответствовать выбранной категории. Убедитесь, что ваш материал действительно показывает заявленное действие.</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                            <span class="text-3xl mr-4">🎯</span>
+                            Релевантность
+                        </h3>
+                        <p class="text-gray-300">Контент должен соответствовать выбранной категории. Убедитесь, что ваш материал действительно показывает заявленное действие.</p>
                     </div>
-                    <div class="rule-item animate-slide-up">
-                        <h3>🚫 Запрещенный контент</h3>
-                        <p>Не загружайте материалы с нецензурной лексикой, оскорбительным контентом или нарушающие правила игры.</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                            <span class="text-3xl mr-4">🚫</span>
+                            Запрещенный контент
+                        </h3>
+                        <p class="text-gray-300">Не загружайте материалы с нецензурной лексикой, оскорбительным контентом или нарушающие правила игры.</p>
                     </div>
-                    <div class="rule-item animate-slide-up">
-                        <h3>📊 Лимиты</h3>
-                        <p>Максимум 10 заявок в день. Размер файла не должен превышать 100 МБ.</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                            <span class="text-3xl mr-4">📊</span>
+                            Лимиты
+                        </h3>
+                        <p class="text-gray-300">Максимум 10 заявок в день. Размер файла не должен превышать 100 МБ.</p>
                     </div>
-                    <div class="rule-item animate-slide-up">
-                        <h3>💰 Награды</h3>
-                        <p>Размер вознаграждения зависит от качества и категории контента. Эпичные моменты оцениваются выше.</p>
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                            <span class="text-3xl mr-4">💰</span>
+                            Награды
+                        </h3>
+                        <p class="text-gray-300">Размер вознаграждения зависит от качества и категории контента. Эпичные моменты оцениваются выше.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>Готов начать зарабатывать?</h2>
-                    <p>Присоединяйся к тысячам игроков, которые уже монетизируют свои игровые достижения</p>
-                    <a href="/auth/epic" class="cta-button">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <section class="py-20 px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="glass rounded-2xl p-12">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Готов начать зарабатывать?</h2>
+                    <p class="text-xl text-gray-300 mb-8">Присоединяйся к тысячам игроков, которые уже монетизируют свои игровые достижения</p>
+                    <button onclick="loginWithEpic()" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3 mx-auto">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                         <span>Начать прямо сейчас</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </section>
+
+        <!-- Dynamic Page Content -->
+        <div id="page-content"></div>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>🎮 GameClips</h4>
-                <p>Платформа для монетизации игрового контента</p>
+    <footer class="glass py-12 px-6 mt-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="mr-2">🎮</span>
+                        GameClips
+                    </h4>
+                    <p class="text-gray-400">Платформа для монетизации игрового контента</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Ссылки</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Главная</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors">Возможности</a></li>
+                        <li><a href="#rules" class="hover:text-white transition-colors">Правила</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Поддержка</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="mailto:support@gameclips.com" class="hover:text-white transition-colors">Связаться с нами</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Ссылки</h4>
-                <ul>
-                    <li><a href="/">Главная</a></li>
-                    <li><a href="/dashboard">Панель</a></li>
-                    <li><a href="#rules">Правила</a></li>
-                </ul>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 GameClips. Все права защищены.</p>
             </div>
-            <div class="footer-section">
-                <h4>Поддержка</h4>
-                <ul>
-                    <li><a href="mailto:support@gameclips.com">Связаться с нами</a></li>
-                    <li><a href="/faq">FAQ</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 GameClips. Все права защищены.</p>
         </div>
     </footer>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay hidden">
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <p>Загрузка...</p>
+            <p class="text-white">Загрузка...</p>
         </div>
     </div>
 
-    <!-- Error Toast -->
+    <!-- Success Modal -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div class="glass-dark rounded-2xl p-8 max-w-md w-full animate-slide-up">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Клип отправлен!</h3>
+                <p class="text-gray-400 mb-6">Ваша заявка принята и будет рассмотрена администраторами</p>
+                <button onclick="closeSuccessModal()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105">
+                    Отправить ещё один клип
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application View Modal -->
+    <div id="app-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div class="glass-dark rounded-2xl p-8 max-w-2xl w-full animate-slide-up">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Просмотр заявки</h3>
+                <button onclick="closeAppModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="app-modal-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toasts -->
     <div id="errorToast" class="toast toast-error hidden">
         <div class="toast-content">
             <span class="toast-icon">❌</span>
@@ -178,7 +270,6 @@
         </div>
     </div>
 
-    <!-- Success Toast -->
     <div id="successToast" class="toast toast-success hidden">
         <div class="toast-content">
             <span class="toast-icon">✅</span>
@@ -187,85 +278,396 @@
     </div>
 
     <script>
-        // Authentication simulation
-        const loginButton = document.getElementById('loginButton');
-        const navAuth = document.getElementById('navAuth');
+        // Global state
+        let currentUser = null;
+        let selectedFile = null;
+        let selectedCategory = null;
+        let isAdmin = false;
 
-        loginButton?.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Show loading
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            checkAuthStatus();
+        });
+
+        function setupEventListeners() {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add scroll effect to navigation
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    header.style.background = 'rgba(0, 0, 0, 0.5)';
+                    header.style.backdropFilter = 'blur(20px)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.05)';
+                    header.style.backdropFilter = 'blur(10px)';
+                }
+            });
+
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-slide-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Authentication functions
+        function loginWithEpic() {
             const loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.classList.remove('hidden');
 
-            // Simulate Epic Games authentication
+            // Simulate Epic Games OAuth
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
+                
+                currentUser = {
+                    id: 'user123',
+                    name: 'GameUser123',
+                    isAdmin: Math.random() > 0.5 // Random admin for demo
+                };
+                isAdmin = currentUser.isAdmin;
+                
+                // Store user in localStorage for persistence
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Update UI
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('nav-login').classList.add('hidden');
+                document.getElementById('nav-user').classList.remove('hidden');
+                document.getElementById('nav-user').classList.add('flex');
                 
                 // Show success message
                 showToast('success', 'Успешно вошли в аккаунт!');
                 
-                // Update UI
-                navAuth.innerHTML = `
-                    <span class="text-gray-300">GameUser123</span>
-                    <button onclick="logout()" class="text-gray-400 hover:text-white transition-colors">Выйти</button>
-                `;
+                // Navigate to appropriate page
+                showPage(isAdmin ? 'admin-page' : 'upload-page');
             }, 2000);
-        });
-
-        function logout() {
-            showToast('success', 'Вы вышли из аккаунта');
-            navAuth.innerHTML = '<a href="/auth/epic" class="glass-button">Войти</a>';
         }
 
+        function logout() {
+            currentUser = null;
+            isAdmin = false;
+            localStorage.removeItem('currentUser');
+            
+            // Update UI
+            document.getElementById('nav-user').classList.add('hidden');
+            document.getElementById('nav-login').classList.remove('hidden');
+            
+            showToast('success', 'Вы вышли из аккаунта');
+            showPage('landing-page');
+            resetUploadForm();
+        }
+
+        function checkAuthStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                isAdmin = currentUser.isAdmin;
+                
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('nav-login').classList.add('hidden');
+                document.getElementById('nav-user').classList.remove('hidden');
+                document.getElementById('nav-user').classList.add('flex');
+                
+                showPage(isAdmin ? 'admin-page' : 'upload-page');
+            }
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            const pages = ['landing-page'];
+            pages.forEach(id => {
+                const page = document.getElementById(id);
+                if (page) page.classList.add('hidden');
+            });
+            if (pageId === 'upload-page' || pageId === 'admin-page') {
+                loadPageContent(pageId);
+            } else {
+                document.getElementById('page-content').innerHTML = '';
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) targetPage.classList.remove('hidden');
+            }
+        }
+
+        function loadPageContent(pageId) {
+            const pageContent = document.getElementById('page-content');
+            let url = '';
+            if (pageId === 'upload-page') url = 'upload.html';
+            if (pageId === 'admin-page') url = 'admin.html';
+            if (!url) return;
+            fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                    pageContent.innerHTML = html;
+                    if (pageId === 'upload-page') setupUploadEvents();
+                    if (pageId === 'admin-page') setupAdminEvents();
+                });
+        }
+
+        function setupUploadEvents() {
+            // Re-attach upload page event listeners
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            if (dropZone && fileInput) {
+                dropZone.addEventListener('click', () => fileInput.click());
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                fileInput.addEventListener('change', handleFileSelect);
+            }
+        }
+        function setupAdminEvents() {
+            // Re-attach admin page event listeners
+            const statusFilter = document.getElementById('status-filter');
+            const categoryFilter = document.getElementById('category-filter');
+            if (statusFilter) statusFilter.addEventListener('change', filterApplications);
+            if (categoryFilter) categoryFilter.addEventListener('change', filterApplications);
+        }
+
+        // File handling functions
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('border-blue-500', 'bg-blue-500/5');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-blue-500', 'bg-blue-500/5');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFile(file) {
+            if (file.size > 100 * 1024 * 1024) { // 100MB limit
+                showToast('error', 'Файл слишком большой. Максимальный размер: 100MB');
+                return;
+            }
+
+            selectedFile = file;
+            updateFileInfo();
+            createPreview(file);
+            updateSubmitButton();
+        }
+
+        function updateFileInfo() {
+            if (selectedFile) {
+                const fileName = document.getElementById('file-name');
+                const fileSize = document.getElementById('file-size');
+                const fileInfo = document.getElementById('file-info');
+                
+                if (fileName) fileName.textContent = selectedFile.name;
+                if (fileSize) fileSize.textContent = formatFileSize(selectedFile.size);
+                if (fileInfo) fileInfo.classList.remove('hidden');
+            }
+        }
+
+        function createPreview(file) {
+            const previewArea = document.getElementById('preview-area');
+            if (!previewArea) return;
+            
+            const isVideo = file.type.startsWith('video/');
+            const isImage = file.type.startsWith('image/');
+
+            if (isVideo || isImage) {
+                const url = URL.createObjectURL(file);
+                const element = isVideo ? 
+                    `<video src="${url}" controls class="w-full h-full object-cover rounded-lg"></video>` :
+                    `<img src="${url}" class="w-full h-full object-cover rounded-lg" alt="Preview">`;
+                
+                previewArea.innerHTML = element;
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Category selection
+        function selectCategory(category) {
+            selectedCategory = category;
+            
+            // Update UI
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-500/20');
+            });
+            
+            event.currentTarget.classList.add('border-blue-500', 'bg-blue-500/20');
+            
+            const categoryNames = {
+                'gold-kill': 'Голд килл',
+                'victory': 'Победа',
+                'funny': 'Смешной момент',
+                'skill': 'Скилл'
+            };
+            
+            const categoryEl = document.getElementById('selected-category');
+            if (categoryEl) categoryEl.textContent = categoryNames[category];
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submit-btn');
+            if (submitBtn) {
+                const canSubmit = selectedFile && selectedCategory;
+                submitBtn.disabled = !canSubmit;
+            }
+        }
+
+        // Submit clip
+        function submitClip() {
+            if (!selectedFile || !selectedCategory) return;
+
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.remove('hidden');
+
+            // Simulate submission
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden');
+                document.getElementById('success-modal').classList.remove('hidden');
+                resetUploadForm();
+            }, 1000);
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.add('hidden');
+        }
+
+        function resetUploadForm() {
+            selectedFile = null;
+            selectedCategory = null;
+            
+            const fileInput = document.getElementById('file-input');
+            const fileInfo = document.getElementById('file-info');
+            const selectedCategoryEl = document.getElementById('selected-category');
+            const previewArea = document.getElementById('preview-area');
+            
+            if (fileInput) fileInput.value = '';
+            if (fileInfo) fileInfo.classList.add('hidden');
+            if (selectedCategoryEl) selectedCategoryEl.textContent = 'Не выбрана';
+            
+            if (previewArea) {
+                previewArea.innerHTML = `
+                    <div class="text-center text-gray-400">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        <p>Загрузите файл для предварительного просмотра</p>
+                    </div>
+                `;
+            }
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-500/20');
+            });
+            
+            updateSubmitButton();
+        }
+
+        // Admin functions
+        function filterApplications() {
+            console.log('Filtering applications...');
+        }
+
+        function viewApplication(id) {
+            const modalContent = document.getElementById('app-modal-content');
+            if (modalContent) {
+                modalContent.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="bg-dark-700 rounded-xl h-64 flex items-center justify-center">
+                            <video controls class="w-full h-full object-cover rounded-lg">
+                                <source src="#" type="video/mp4">
+                                Демо видео недоступно
+                            </video>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Вознаграждение</label>
+                                <input type="number" placeholder="Сумма" class="w-full bg-dark-700 rounded-lg px-4 py-2 text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Действие</label>
+                                <div class="flex space-x-2">
+                                    <button onclick="approveApplication(${id})" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
+                                        Одобрить
+                                    </button>
+                                    <button onclick="rejectApplication(${id})" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors">
+                                        Отклонить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('app-modal').classList.remove('hidden');
+        }
+
+        function closeAppModal() {
+            document.getElementById('app-modal').classList.add('hidden');
+        }
+
+        function approveApplication(id) {
+            console.log(`Approving application ${id}`);
+            showToast('success', 'Заявка одобрена');
+            closeAppModal();
+        }
+
+        function rejectApplication(id) {
+            console.log(`Rejecting application ${id}`);
+            showToast('error', 'Заявка отклонена');
+            closeAppModal();
+        }
+
+        // Toast notifications
         function showToast(type, message) {
             const toast = document.getElementById(type === 'success' ? 'successToast' : 'errorToast');
             const messageEl = toast.querySelector('.toast-message');
             
-            messageEl.textContent = message;
+            if (messageEl) messageEl.textContent = message;
             toast.classList.remove('hidden');
             
             setTimeout(() => {
                 toast.classList.add('hidden');
             }, 3000);
         }
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add scroll effect to navigation
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 50) {
-                header.style.background = 'rgba(0, 0, 0, 0.5)';
-                header.style.backdropFilter = 'blur(20px)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.05)';
-                header.style.backdropFilter = 'blur(10px)';
-            }
-        });
-
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
+    </script>
+</body>
+</html>

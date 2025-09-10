@@ -1,0 +1,76 @@
+<!-- Upload Page Content Only -->
+<div id="upload-page" class="min-h-screen py-12 px-6">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12 animate-slide-up">
+            <h1 class="text-4xl font-bold mb-4">Загрузить клип</h1>
+            <p class="text-gray-400">Поделись своим лучшим игровым моментом</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Upload Form -->
+            <div class="glass rounded-2xl p-8 animate-slide-up">
+                <h2 class="text-2xl font-semibold mb-6">Загрузка файла</h2>
+                <div id="drop-zone" class="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer">
+                    <div id="drop-content">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="text-lg mb-2">Перетащите файл сюда</p>
+                        <p class="text-gray-400 mb-4">или нажмите для выбора</p>
+                        <p class="text-sm text-gray-500">Поддерживаются: MP4, MOV, PNG, JPG (до 100MB)</p>
+                    </div>
+                </div>
+                <input type="file" id="file-input" class="hidden" accept="video/*,image/*">
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4">Категория</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectCategory('gold-kill')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-blue-500/20 border-2 border-transparent">
+                            <div class="text-yellow-400 text-2xl mb-2">🏆</div>
+                            <div class="font-semibold">Голд килл</div>
+                        </button>
+                        <button onclick="selectCategory('victory')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-green-500/20 border-2 border-transparent">
+                            <div class="text-green-400 text-2xl mb-2">🎉</div>
+                            <div class="font-semibold">Победа</div>
+                        </button>
+                        <button onclick="selectCategory('funny')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-purple-500/20 border-2 border-transparent">
+                            <div class="text-purple-400 text-2xl mb-2">😂</div>
+                            <div class="font-semibold">Смешной момент</div>
+                        </button>
+                        <button onclick="selectCategory('skill')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-red-500/20 border-2 border-transparent">
+                            <div class="text-red-400 text-2xl mb-2">🎯</div>
+                            <div class="font-semibold">Скилл</div>
+                        </button>
+                    </div>
+                </div>
+                <button id="submit-btn" onclick="submitClip()" disabled class="w-full mt-8 bg-gradient-to-r from-blue-600 to-purple-600 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed">
+                    Отправить клип
+                </button>
+            </div>
+            <!-- Preview Area -->
+            <div class="glass rounded-2xl p-8 animate-slide-up">
+                <h2 class="text-2xl font-semibold mb-6">Предварительный просмотр</h2>
+                <div id="preview-area" class="bg-dark-700 rounded-xl h-64 flex items-center justify-center">
+                    <div class="text-center text-gray-400">
+                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        <p>Загрузите файл для предварительного просмотра</p>
+                    </div>
+                </div>
+                <div id="file-info" class="hidden mt-4 space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Имя файла:</span>
+                        <span id="file-name"></span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Размер:</span>
+                        <span id="file-size"></span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Категория:</span>
+                        <span id="selected-category">Не выбрана</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
