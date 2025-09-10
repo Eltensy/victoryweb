@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameClips - Поделись своими лучшими моментами</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0a0a0b',
+                            800: '#1a1a1b',
+                            700: '#2a2a2b',
+                            600: '#3a3a3b'
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.4s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="glass fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">GC</span>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">GameClips</span>
+            </div>
+            <div id="nav-user" class="hidden items-center space-x-4">
+                <span id="user-name" class="text-gray-300"></span>
+                <button onclick="logout()" class="text-gray-400 hover:text-white transition-colors">Выйти</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Landing Page -->
+        <div id="landing-page" class="min-h-screen flex items-center justify-center px-6">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    GameClips
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                    Поделись своими лучшими игровыми моментами и получай вознаграждения
+                </p>
+                <div class="glass rounded-2xl p-8 max-w-md mx-auto">
+                    <h2 class="text-2xl font-semibold mb-6">Войти в аккаунт</h2>
+                    <button onclick="loginWithEpic()" class="w-full bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
+                        <span>Войти через Epic Games</span>
+                    </button>
+                    <div class="mt-4 text-sm text-gray-400">
+                        Другие способы входа будут добавлены позже
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Page -->
+        <div id="upload-page" class="hidden min-h-screen py-12 px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12 animate-slide-up">
+                    <h1 class="text-4xl font-bold mb-4">Загрузить клип</h1>
+                    <p class="text-gray-400">Поделись своим лучшим игровым моментом</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Upload Form -->
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h2 class="text-2xl font-semibold mb-6">Загрузка файла</h2>
+                        
+                        <!-- Drag & Drop Area -->
+                        <div id="drop-zone" class="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer">
+                            <div id="drop-content">
+                                <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                </svg>
+                                <p class="text-lg mb-2">Перетащите файл сюда</p>
+                                <p class="text-gray-400 mb-4">или нажмите для выбора</p>
+                                <p class="text-sm text-gray-500">Поддерживаются: MP4, MOV, PNG, JPG (до 100MB)</p>
+                            </div>
+                        </div>
+                        <input type="file" id="file-input" class="hidden" accept="video/*,image/*">
+
+                        <!-- Category Selection -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-semibold mb-4">Категория</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="selectCategory('gold-kill')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-blue-500/20 border-2 border-transparent">
+                                    <div class="text-yellow-400 text-2xl mb-2">🏆</div>
+                                    <div class="font-semibold">Голд килл</div>
+                                </button>
+                                <button onclick="selectCategory('victory')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-green-500/20 border-2 border-transparent">
+                                    <div class="text-green-400 text-2xl mb-2">🎉</div>
+                                    <div class="font-semibold">Победа</div>
+                                </button>
+                                <button onclick="selectCategory('funny')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-purple-500/20 border-2 border-transparent">
+                                    <div class="text-purple-400 text-2xl mb-2">😂</div>
+                                    <div class="font-semibold">Смешной момент</div>
+                                </button>
+                                <button onclick="selectCategory('skill')" class="category-btn glass-dark rounded-lg p-4 text-left transition-all duration-300 hover:bg-red-500/20 border-2 border-transparent">
+                                    <div class="text-red-400 text-2xl mb-2">🎯</div>
+                                    <div class="font-semibold">Скилл</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button id="submit-btn" onclick="submitClip()" disabled class="w-full mt-8 bg-gradient-to-r from-blue-600 to-purple-600 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed">
+                            Отправить клип
+                        </button>
+                    </div>
+
+                    <!-- Preview Area -->
+                    <div class="glass rounded-2xl p-8 animate-slide-up">
+                        <h2 class="text-2xl font-semibold mb-6">Предварительный просмотр</h2>
+                        <div id="preview-area" class="bg-dark-700 rounded-xl h-64 flex items-center justify-center">
+                            <div class="text-center text-gray-400">
+                                <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                <p>Загрузите файл для предварительного просмотра</p>
+                            </div>
+                        </div>
+                        
+                        <!-- File Info -->
+                        <div id="file-info" class="hidden mt-4 space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">Имя файла:</span>
+                                <span id="file-name"></span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">Размер:</span>
+                                <span id="file-size"></span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">Категория:</span>
+                                <span id="selected-category">Не выбрана</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Page -->
+        <div id="admin-page" class="hidden min-h-screen py-12 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-4xl font-bold">Панель администратора</h1>
+                    <div class="flex space-x-4">
+                        <select id="status-filter" class="glass rounded-lg px-4 py-2 bg-dark-700 text-white">
+                            <option value="">Все статусы</option>
+                            <option value="pending">Ожидает</option>
+                            <option value="approved">Одобрено</option>
+                            <option value="rejected">Отклонено</option>
+                        </select>
+                        <select id="category-filter" class="glass rounded-lg px-4 py-2 bg-dark-700 text-white">
+                            <option value="">Все категории</option>
+                            <option value="gold-kill">Голд килл</option>
+                            <option value="victory">Победа</option>
+                            <option value="funny">Смешной момент</option>
+                            <option value="skill">Скилл</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="glass rounded-xl p-6">
+                        <div class="text-3xl font-bold text-blue-400">24</div>
+                        <div class="text-gray-400">Всего заявок</div>
+                    </div>
+                    <div class="glass rounded-xl p-6">
+                        <div class="text-3xl font-bold text-yellow-400">8</div>
+                        <div class="text-gray-400">Ожидают</div>
+                    </div>
+                    <div class="glass rounded-xl p-6">
+                        <div class="text-3xl font-bold text-green-400">12</div>
+                        <div class="text-gray-400">Одобрено</div>
+                    </div>
+                    <div class="glass rounded-xl p-6">
+                        <div class="text-3xl font-bold text-red-400">4</div>
+                        <div class="text-gray-400">Отклонено</div>
+                    </div>
+                </div>
+
+                <!-- Applications Table -->
+                <div class="glass rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-dark-700">
+                                <tr>
+                                    <th class="px-6 py-4 text-left">Пользователь</th>
+                                    <th class="px-6 py-4 text-left">Категория</th>
+                                    <th class="px-6 py-4 text-left">Дата</th>
+                                    <th class="px-6 py-4 text-left">Статус</th>
+                                    <th class="px-6 py-4 text-left">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="applications-table" class="divide-y divide-gray-700">
+                                <!-- Sample data -->
+                                <tr class="hover:bg-dark-700/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-sm font-bold">
+                                                GU
+                                            </div>
+                                            <span>GameUser123</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-yellow-500/20 text-yellow-400">
+                                            🏆 Голд килл
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-400">2024-01-15</td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-yellow-500/20 text-yellow-400">
+                                            Ожидает
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex space-x-2">
+                                            <button onclick="viewApplication(1)" class="text-blue-400 hover:text-blue-300 transition-colors">
+                                                Просмотр
+                                            </button>
+                                            <button onclick="approveApplication(1)" class="text-green-400 hover:text-green-300 transition-colors">
+                                                Одобрить
+                                            </button>
+                                            <button onclick="rejectApplication(1)" class="text-red-400 hover:text-red-300 transition-colors">
+                                                Отклонить
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div class="glass-dark rounded-2xl p-8 max-w-md w-full animate-slide-up">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Клип отправлен!</h3>
+                <p class="text-gray-400 mb-6">Ваша заявка принята и будет рассмотрена администраторами</p>
+                <button onclick="closeSuccessModal()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105">
+                    Отправить ещё один клип
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application View Modal -->
+    <div id="app-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div class="glass-dark rounded-2xl p-8 max-w-2xl w-full animate-slide-up">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Просмотр заявки</h3>
+                <button onclick="closeAppModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="app-modal-content">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentUser = null;
+        let selectedFile = null;
+        let selectedCategory = null;
+        let isAdmin = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            checkAuthStatus();
+        });
+
+        function setupEventListeners() {
+            // File upload
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+
+            dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('drop', handleDrop);
+            fileInput.addEventListener('change', handleFileSelect);
+
+            // Filters
+            document.getElementById('status-filter').addEventListener('change', filterApplications);
+            document.getElementById('category-filter').addEventListener('change', filterApplications);
+        }
+
+        // Authentication
+        function loginWithEpic() {
+            // Simulate Epic Games OAuth
+            setTimeout(() => {
+                currentUser = {
+                    id: 'user123',
+                    name: 'GameUser123',
+                    isAdmin: Math.random() > 0.5 // Random admin for demo
+                };
+                isAdmin = currentUser.isAdmin;
+                
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('nav-user').classList.remove('hidden');
+                document.getElementById('nav-user').classList.add('flex');
+                
+                showPage(isAdmin ? 'admin-page' : 'upload-page');
+            }, 1000);
+        }
+
+        function logout() {
+            currentUser = null;
+            isAdmin = false;
+            document.getElementById('nav-user').classList.add('hidden');
+            showPage('landing-page');
+            resetUploadForm();
+        }
+
+        function checkAuthStatus() {
+            // Check if user is already logged in (simulate)
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                isAdmin = currentUser.isAdmin;
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('nav-user').classList.remove('hidden');
+                document.getElementById('nav-user').classList.add('flex');
+                showPage(isAdmin ? 'admin-page' : 'upload-page');
+            }
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            const pages = ['landing-page', 'upload-page', 'admin-page'];
+            pages.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // File handling
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('border-blue-500', 'bg-blue-500/5');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-blue-500', 'bg-blue-500/5');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFile(file) {
+            if (file.size > 100 * 1024 * 1024) { // 100MB limit
+                alert('Файл слишком большой. Максимальный размер: 100MB');
+                return;
+            }
+
+            selectedFile = file;
+            updateFileInfo();
+            createPreview(file);
+            updateSubmitButton();
+        }
+
+        function updateFileInfo() {
+            if (selectedFile) {
+                document.getElementById('file-name').textContent = selectedFile.name;
+                document.getElementById('file-size').textContent = formatFileSize(selectedFile.size);
+                document.getElementById('file-info').classList.remove('hidden');
+            }
+        }
+
+        function createPreview(file) {
+            const previewArea = document.getElementById('preview-area');
+            const isVideo = file.type.startsWith('video/');
+            const isImage = file.type.startsWith('image/');
+
+            if (isVideo || isImage) {
+                const url = URL.createObjectURL(file);
+                const element = isVideo ? 
+                    `<video src="${url}" controls class="w-full h-full object-cover rounded-lg"></video>` :
+                    `<img src="${url}" class="w-full h-full object-cover rounded-lg" alt="Preview">`;
+                
+                previewArea.innerHTML = element;
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Category selection
+        function selectCategory(category) {
+            selectedCategory = category;
+            
+            // Update UI
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-500/20');
+            });
+            
+            event.currentTarget.classList.add('border-blue-500', 'bg-blue-500/20');
+            
+            const categoryNames = {
+                'gold-kill': 'Голд килл',
+                'victory': 'Победа',
+                'funny': 'Смешной момент',
+                'skill': 'Скилл'
+            };
+            
+            document.getElementById('selected-category').textContent = categoryNames[category];
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submit-btn');
+            const canSubmit = selectedFile && selectedCategory;
+            submitBtn.disabled = !canSubmit;
+        }
+
+        // Submit clip
+        function submitClip() {
+            if (!selectedFile || !selectedCategory) return;
+
+            // Simulate submission
+            setTimeout(() => {
+                document.getElementById('success-modal').classList.remove('hidden');
+                resetUploadForm();
+            }, 1000);
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.add('hidden');
+        }
+
+        function resetUploadForm() {
+            selectedFile = null;
+            selectedCategory = null;
+            document.getElementById('file-input').value = '';
+            document.getElementById('file-info').classList.add('hidden');
+            document.getElementById('selected-category').textContent = 'Не выбрана';
+            document.getElementById('preview-area').innerHTML = `
+                <div class="text-center text-gray-400">
+                    <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <p>Загрузите файл для предварительного просмотра</p>
+                </div>
+            `;
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-500/20');
+            });
+            
+            updateSubmitButton();
+        }
+
+        // Admin functions
+        function filterApplications() {
+            // Simulate filtering
+            console.log('Filtering applications...');
+        }
+
+        function viewApplication(id) {
+            document.getElementById('app-modal-content').innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-dark-700 rounded-xl h-64 flex items-center justify-center">
+                        <video controls class="w-full h-full object-cover rounded-lg">
+                            <source src="#" type="video/mp4">
+                            Демо видео недоступно
+                        </video>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Вознаграждение</label>
+                            <input type="number" placeholder="Сумма" class="w-full bg-dark-700 rounded-lg px-4 py-2 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Действие</label>
+                            <div class="flex space-x-2">
+                                <button onclick="approveApplication(${id})" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
+                                    Одобрить
+                                </button>
+                                <button onclick="rejectApplication(${id})" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors">
+                                    Отклонить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('app-modal').classList.remove('hidden');
+        }
+
+        function closeAppModal() {
+            document.getElementById('app-modal').classList.add('hidden');
+        }
+
+        function approveApplication(id) {
+            console.log(`Approving application ${id}`);
+            closeAppModal();
+        }
+
+        function rejectApplication(id) {
+            console.log(`Rejecting application ${id}`);
+            closeAppModal();
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ca1e6b56a12dea',t:'MTc1NzQ1NjkwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

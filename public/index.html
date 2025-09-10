@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Platform - Главная</title>
+    <title>GameClips - Покажи свои лучшие моменты</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav container">
-            <div class="logo">🎮 GamePlatform</div>
+    <!-- Navigation -->
+    <header class="header glass">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-icon">GC</div>
+                <span class="logo-text">GameClips</span>
+            </div>
             <ul class="nav-links">
-                <li><a href="/" class="nav-link">Главная</a></li>
                 <li><a href="#features" class="nav-link">Возможности</a></li>
                 <li><a href="#rules" class="nav-link">Правила</a></li>
             </ul>
@@ -26,46 +28,58 @@
     </header>
 
     <main>
-        <section class="hero">
+        <!-- Hero Section -->
+        <section class="hero animate-fade-in">
             <div class="hero-content">
                 <h1>Покажи свои лучшие моменты</h1>
                 <p>Загружай скриншоты и видео своих эпичных побед, получай вознаграждения за качественный контент</p>
-                <a href="/auth/epic" class="cta-button" id="loginButton">
-                    <span>🎯 Войти через Epic Games</span>
-                </a>
+                
+                <div class="auth-modal">
+                    <h2>Войти в аккаунт</h2>
+                    <a href="/auth/epic" class="cta-button" id="loginButton">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
+                        <span>Войти через Epic Games</span>
+                    </a>
+                    <div class="auth-note">
+                        Другие способы входа будут добавлены позже
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- Features Section -->
         <section id="features" class="features">
             <div class="container">
                 <h2>Возможности платформы</h2>
                 <div class="features-grid">
-                    <div class="feature-card">
+                    <div class="feature-card animate-slide-up">
                         <div class="feature-icon">📸</div>
                         <h3>Загрузка контента</h3>
                         <p>Быстрая загрузка скриншотов и видео с автоматической оптимизацией</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card animate-slide-up">
                         <div class="feature-icon">💰</div>
                         <h3>Система наград</h3>
                         <p>Получайте баланс за одобренный контент и участвуйте в конкурсах</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card animate-slide-up">
                         <div class="feature-icon">🏆</div>
                         <h3>Рейтинг игроков</h3>
                         <p>Соревнуйтесь с другими игроками и становитесь лучшими</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card animate-slide-up">
                         <div class="feature-icon">⚡</div>
                         <h3>Быстрая модерация</h3>
                         <p>Профессиональная команда модераторов для быстрого рассмотрения</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card animate-slide-up">
                         <div class="feature-icon">🎮</div>
                         <h3>Все жанры</h3>
                         <p>Поддержка контента из любых популярных игр</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card animate-slide-up">
                         <div class="feature-icon">📱</div>
                         <h3>Мобильная версия</h3>
                         <p>Удобный интерфейс для загрузки с мобильных устройств</p>
@@ -74,27 +88,28 @@
             </div>
         </section>
 
+        <!-- Rules Section -->
         <section id="rules" class="rules">
             <div class="container">
                 <h2>Правила подачи заявок</h2>
                 <div class="rules-content">
-                    <div class="rule-item">
+                    <div class="rule-item animate-slide-up">
                         <h3>📋 Качество контента</h3>
                         <p>Загружайте только высококачественные скриншоты и видео. Размытые или плохо снятые материалы не будут одобрены.</p>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item animate-slide-up">
                         <h3>🎯 Релевантность</h3>
                         <p>Контент должен соответствовать выбранной категории. Убедитесь, что ваш материал действительно показывает заявленное действие.</p>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item animate-slide-up">
                         <h3>🚫 Запрещенный контент</h3>
                         <p>Не загружайте материалы с нецензурной лексикой, оскорбительным контентом или нарушающие правила игры.</p>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item animate-slide-up">
                         <h3>📊 Лимиты</h3>
                         <p>Максимум 10 заявок в день. Размер файла не должен превышать 100 МБ.</p>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item animate-slide-up">
                         <h3>💰 Награды</h3>
                         <p>Размер вознаграждения зависит от качества и категории контента. Эпичные моменты оцениваются выше.</p>
                     </div>
@@ -102,45 +117,48 @@
             </div>
         </section>
 
+        <!-- CTA Section -->
         <section class="cta-section">
             <div class="container">
                 <div class="cta-content">
                     <h2>Готов начать зарабатывать?</h2>
                     <p>Присоединяйся к тысячам игроков, которые уже монетизируют свои игровые достижения</p>
                     <a href="/auth/epic" class="cta-button">
-                        <span>🚀 Начать прямо сейчас</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span>Начать прямо сейчас</span>
                     </a>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>🎮 GamePlatform</h4>
-                    <p>Платформа для монетизации игрового контента</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Ссылки</h4>
-                    <ul>
-                        <li><a href="/">Главная</a></li>
-                        <li><a href="/dashboard">Панель</a></li>
-                        <li><a href="#rules">Правила</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Поддержка</h4>
-                    <ul>
-                        <li><a href="mailto:support@gameplatform.com">Связаться с нами</a></li>
-                        <li><a href="/faq">FAQ</a></li>
-                    </ul>
-                </div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🎮 GameClips</h4>
+                <p>Платформа для монетизации игрового контента</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 GamePlatform. Все права защищены.</p>
+            <div class="footer-section">
+                <h4>Ссылки</h4>
+                <ul>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/dashboard">Панель</a></li>
+                    <li><a href="#rules">Правила</a></li>
+                </ul>
             </div>
+            <div class="footer-section">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="mailto:support@gameclips.com">Связаться с нами</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GameClips. Все права защищены.</p>
         </div>
     </footer>
 
@@ -160,7 +178,94 @@
         </div>
     </div>
 
-    <script src="scripts/main.js"></script>
-    <script src="scripts/auth.js"></script>
-</body>
-</html>
+    <!-- Success Toast -->
+    <div id="successToast" class="toast toast-success hidden">
+        <div class="toast-content">
+            <span class="toast-icon">✅</span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script>
+        // Authentication simulation
+        const loginButton = document.getElementById('loginButton');
+        const navAuth = document.getElementById('navAuth');
+
+        loginButton?.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.remove('hidden');
+
+            // Simulate Epic Games authentication
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden');
+                
+                // Show success message
+                showToast('success', 'Успешно вошли в аккаунт!');
+                
+                // Update UI
+                navAuth.innerHTML = `
+                    <span class="text-gray-300">GameUser123</span>
+                    <button onclick="logout()" class="text-gray-400 hover:text-white transition-colors">Выйти</button>
+                `;
+            }, 2000);
+        });
+
+        function logout() {
+            showToast('success', 'Вы вышли из аккаунта');
+            navAuth.innerHTML = '<a href="/auth/epic" class="glass-button">Войти</a>';
+        }
+
+        function showToast(type, message) {
+            const toast = document.getElementById(type === 'success' ? 'successToast' : 'errorToast');
+            const messageEl = toast.querySelector('.toast-message');
+            
+            messageEl.textContent = message;
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(0, 0, 0, 0.5)';
+                header.style.backdropFilter = 'blur(20px)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.05)';
+                header.style.backdropFilter = 'blur(10px)';
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });

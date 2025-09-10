@@ -8,7 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Route imports - убедитесь что пути правильные
-const authRoutes = require('/routes/auth');
+const authRoutes = require('./routes/auth');
 const submissionRoutes = require('./routes/submissions');
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
